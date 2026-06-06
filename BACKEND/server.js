@@ -7,40 +7,45 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware Matrix - Dynamic Origin Acceptance
+// 📡 Middleware Matrix - Authorized Transmission Entry Portals
 const allowedOrigins = [
-  "http://localhost:5173", 
-  process.env.FRONTEND_URL
+  "http://localhost:5173",                 // Local development canvas
+  "https://devotheportfolio.onrender.com", // Your explicit production site
+  process.env.FRONTEND_URL                 // Dynamic environmental fallback
 ].filter(Boolean);
 
 app.use(cors({
   origin: function (origin, callback) {
+    // Allow server-to-server or curl requests (where origin is undefined)
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      return callback(new Error('CORS policy block: Origin unauthorized.'), false);
+    
+    // Check if the incoming request origin is explicitly authorized
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    } else {
+      return callback(new Error("CORS policy block: Portal origin unauthorized."), false);
     }
-    return callback(null, true);
   },
   credentials: true
 }));
 
 app.use(express.json());
 
-// Transporter Config - Wire up your email system
+// 🎛️ Transporter Config - Wire up your email system
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS // Your 16-character Google App Password
+    pass: process.env.EMAIL_PASS // Your secret 16-character Google App Password
   }
 });
 
-// Broadcast Route to test if server is live
+// 📟 Broadcast Route to test if server is live
 app.get("/", (req, res) => {
   res.send("Transmission Link Active.");
 });
 
-// POST Endpoint: Handles Incoming Portfolio Messages
+// 🚀 POST Endpoint: Handles Incoming Portfolio Messages
 app.post("/api/contact", (req, res) => {
   const { name, email, message } = req.body;
 
@@ -52,10 +57,10 @@ app.post("/api/contact", (req, res) => {
   // Formatting what lands in your personal email inbox
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: process.env.EMAIL_USER, 
+    to: process.env.EMAIL_USER, // Redirects message traffic straight back to you
     subject: `🚀 Portfolio Message from ${name}`,
     text: `You received a message via your portfolio matrix:\n\nSender Name: ${name}\nSender Email: ${email}\n\nMessage:\n${message}`,
-    replyTo: email 
+    replyTo: email // Clicking 'reply' in your inbox goes straight back to the visitor!
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
