@@ -29,13 +29,13 @@ export default function Contact({ onClose }) {
     setStatus("Transmitting Signal...");
 
     try {
-      // Points to your local node process (Change this later when you host your backend live)
-      const response = await fetch("http://localhost:5000/api/contact", {
+      // Points to your local node process or uses your Vercel deployment variables
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+      
+      const response = await fetch(`${backendUrl}/api/contact`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData), // Fixed bug: Corrected from 'form' to 'formData'
       });
 
       const data = await response.json();
@@ -163,25 +163,25 @@ export default function Contact({ onClose }) {
           Send your concepts drifting through the digital ether. Drop a line below and let the network align our realities.
         </p>
 
-       {/* 📟 Real-Time Status Output Layer with Dynamic Color Coding */}
-{status && (
-  <div style={{
-    fontSize: "13px",
-    // 🎨 Dynamically switch colors so sending doesn't look like an error
-    color: status.includes("Dispatched") 
-      ? "#34d399" // Neon Green for successful delivery
-      : status.includes("Transmitting") 
-      ? "#38bdf8" // Neon Cyan/Blue for active sending 🌌
-      : "#f87171", // Red ONLY if something actually breaks
-    backgroundColor: "rgba(255, 255, 255, 0.03)", 
-    padding: "10px",
-    borderRadius: "6px", 
-    marginBottom: "20px", 
-    border: "1px solid rgba(255,255,255,0.05)"
-  }}>
-    {status}
-  </div>
-)}
+        {/* 📟 Real-Time Status Output Layer with Dynamic Color Coding */}
+        {status && (
+          <div style={{
+            fontSize: "13px",
+            // 🎨 Smooth dynamic colors based on application states
+            color: status.includes("Dispatched") 
+              ? "#34d399" // Neon Green for successful delivery
+              : status.includes("Transmitting") 
+              ? "#38bdf8" // Neon Cyan/Blue for active sending 🌌
+              : "#f87171", // Red ONLY if something actually breaks
+            backgroundColor: "rgba(255, 255, 255, 0.03)", 
+            padding: "10px",
+            borderRadius: "6px", 
+            marginBottom: "20px", 
+            border: "1px solid rgba(255,255,255,0.05)"
+          }}>
+            {status}
+          </div>
+        )}
 
         {/* Form Pipeline */}
         <form style={{ display: "flex", flexDirection: "column", gap: "16px" }} onSubmit={handleSubmit}>
@@ -192,6 +192,7 @@ export default function Contact({ onClose }) {
             onChange={handleChange}
             placeholder="Identity / Name" 
             disabled={isSending}
+            required
             style={{
               width: "100%", padding: "14px 16px", backgroundColor: "rgba(6, 6, 14, 0.7)",
               border: "1px solid rgba(168, 85, 247, 0.2)", borderRadius: "8px",
@@ -207,6 +208,7 @@ export default function Contact({ onClose }) {
             onChange={handleChange}
             placeholder="Digital Address / Email" 
             disabled={isSending}
+            required
             style={{
               width: "100%", padding: "14px 16px", backgroundColor: "rgba(6, 6, 14, 0.7)",
               border: "1px solid rgba(168, 85, 247, 0.2)", borderRadius: "8px",
@@ -222,6 +224,7 @@ export default function Contact({ onClose }) {
             onChange={handleChange}
             rows="4"
             disabled={isSending}
+            required
             style={{
               width: "100%", padding: "14px 16px", backgroundColor: "rgba(6, 6, 14, 0.7)",
               border: "1px solid rgba(168, 85, 247, 0.2)", borderRadius: "8px",

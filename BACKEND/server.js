@@ -7,17 +7,31 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware Matrix
-app.use(cors());
+// Middleware Matrix - Dynamic Origin Acceptance
+const allowedOrigins = [
+  "http://localhost:5173", 
+  process.env.FRONTEND_URL
+].filter(Boolean);
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      return callback(new Error('CORS policy block: Origin unauthorized.'), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true
+}));
+
 app.use(express.json());
 
 // Transporter Config - Wire up your email system
 const transporter = nodemailer.createTransport({
-  service: "gmail", // You can switch this to Outlook/Yahoo if needed
+  service: "gmail",
   auth: {
     user: process.env.EMAIL_USER,
-    // ⚠️ CRITICAL: This must be an "App Password", not your regular account password
-    pass: process.env.EMAIL_PASS 
+    pass: process.env.EMAIL_PASS // Your 16-character Google App Password
   }
 });
 
@@ -38,10 +52,10 @@ app.post("/api/contact", (req, res) => {
   // Formatting what lands in your personal email inbox
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: process.env.EMAIL_USER, // Sends it right back to you
+    to: process.env.EMAIL_USER, 
     subject: `🚀 Portfolio Message from ${name}`,
     text: `You received a message via your portfolio matrix:\n\nSender Name: ${name}\nSender Email: ${email}\n\nMessage:\n${message}`,
-    replyTo: email // Clicking 'reply' in your inbox goes straight back to the user!
+    replyTo: email 
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
