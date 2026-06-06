@@ -1,0 +1,15 @@
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Stops scrollbars from breaking the view */
+  
+  /* 🖼️ Set your fullscreen image background */
+  background-image: url('/home-background.png'); /* 💡 Matches your file name in public/ */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
