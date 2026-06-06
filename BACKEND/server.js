@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 5000;
 // 📡 Middleware Matrix - Authorized Transmission Entry Portals
 const allowedOrigins = [
   "http://localhost:5173",                 // Local development canvas
-  "https://devotheportfolio.onrender.com", // Your explicit production site
+  "https://devotheportifolio.onrender.com", // Your explicit production site
   process.env.FRONTEND_URL                 // Dynamic environmental fallback
 ].filter(Boolean);
 
