@@ -30,7 +30,7 @@ export default function Contact({ onClose }) {
 
     try {
       // Points to your local node process or uses your Vercel deployment variables
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+      const backendUrl = import.meta.env.VITE_BACKEND_URL||"http://localhost:5000";
       
       const response = await fetch(`${backendUrl}/api/contact`, {
         method: "POST",
