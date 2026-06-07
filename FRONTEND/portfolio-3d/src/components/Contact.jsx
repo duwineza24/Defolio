@@ -29,14 +29,20 @@ export default function Contact({ onClose }) {
     setStatus("Transmitting Signal...");
 
     try {
-      // Points to your local node process or uses your Vercel deployment variables
-      const backendUrl = import.meta.env.VITE_BACKEND_URL||"http://localhost:5000";
-      
-      const response = await fetch(`${backendUrl}/api/contact`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData), // Fixed bug: Corrected from 'form' to 'formData'
-      });
+    // Dynamic production endpoint pipeline
+const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+
+const response = await fetch(`${backendUrl}/api/contact`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    name: formData.name,
+    email: formData.email,
+    message: formData.message,
+  }),
+});
 
       const data = await response.json();
 
