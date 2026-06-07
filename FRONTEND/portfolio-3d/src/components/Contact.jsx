@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { IoHomeOutline } from "react-icons/io5";
+import emailjs from "@emailjs/browser";
 
 export default function Contact({ onClose }) {
   const canvasRef = useRef(null);
@@ -15,7 +16,7 @@ export default function Contact({ onClose }) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 🚀 Transmit Signal Pipeline to your Backend Server
+  // 🚀 Transmit Signal Pipeline using direct client-side EmailJS
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -28,25 +29,22 @@ export default function Contact({ onClose }) {
     setIsSending(true);
     setStatus("Transmitting Signal...");
 
+    // 📦 Bundling structural arguments to match your EmailJS variables
+    const templateParams = {
+      from_name: formData.name,  // Maps directly to {{from_name}}
+      reply_to: formData.email,   // Maps directly to {{reply_to}}
+      message: formData.message,  // Maps directly to {{message}}
+    };
+
     try {
-    // Dynamic production endpoint pipeline
-const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+      const result = await emailjs.send(
+        "service_1htm47j",    // Your EmailJS Service ID
+        "template_ofkyc35",   // Your EmailJS Template ID
+        templateParams,
+        "YXDk2dyHFxdhW3k4R"   // Your EmailJS Public Key
+      );
 
-const response = await fetch(`${backendUrl}/api/contact`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    name: formData.name,
-    email: formData.email,
-    message: formData.message,
-  }),
-});
-
-      const data = await response.json();
-
-      if (data.success) {
+      if (result.status === 200) {
         setStatus("Signal Dispatched! Check your inbox.");
         setFormData({ name: "", email: "", message: "" }); // Clean out form inputs safely
       } else {
@@ -54,7 +52,7 @@ const response = await fetch(`${backendUrl}/api/contact`, {
       }
     } catch (error) {
       console.error("Pipeline failure:", error);
-      setStatus("Connection failure. Is your backend server running?");
+      setStatus("Connection failure. Transmission Interrupted.");
     } finally {
       setIsSending(false);
     }
@@ -173,12 +171,11 @@ const response = await fetch(`${backendUrl}/api/contact`, {
         {status && (
           <div style={{
             fontSize: "13px",
-            // 🎨 Smooth dynamic colors based on application states
             color: status.includes("Dispatched") 
               ? "#34d399" // Neon Green for successful delivery
               : status.includes("Transmitting") 
               ? "#38bdf8" // Neon Cyan/Blue for active sending 🌌
-              : "#f87171", // Red ONLY if something actually breaks
+              : "#f87171", // Red ONLY if something breaks
             backgroundColor: "rgba(255, 255, 255, 0.03)", 
             padding: "10px",
             borderRadius: "6px", 
