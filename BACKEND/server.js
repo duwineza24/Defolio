@@ -30,13 +30,14 @@ app.use(cors({
 }));
 
 app.use(express.json());
-
-// 🎛️ Transporter Config - Wire up your email system
+// 🎛️ Transporter Config - Rock-Solid SMTP Layout
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // Uses SSL for secure email routing
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS // Your secret 16-character Google App Password
+    pass: process.env.EMAIL_PASS 
   }
 });
 
