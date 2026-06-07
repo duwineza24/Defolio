@@ -30,18 +30,19 @@ app.use(cors({
 }));
 
 app.use(express.json());
-// 🎛️ Transporter Config - Optimized Cloud SMTP Layout
+// 🎛️ Transporter Config - Forcing IPv4 to bypass ENETUNREACH
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 587,             // Switching to Port 587 (Standard TLS port for cloud hosts)
-  secure: false,         // Must be false for port 587
-  requireTLS: true,      // Forces an upgraded encrypted transmission handshake
+  port: 587,
+  secure: false, 
+  requireTLS: true,
+  family: 4, // 👈 FORCES NODEMAILER TO USE IPv4 ONLY (Kills the ENETUNREACH error!)
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS 
   },
   tls: {
-    rejectUnauthorized: false // Prevents cloud hosting certificate rejections
+    rejectUnauthorized: false 
   }
 });
 
