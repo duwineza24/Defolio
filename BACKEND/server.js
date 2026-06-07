@@ -30,14 +30,18 @@ app.use(cors({
 }));
 
 app.use(express.json());
-// 🎛️ Transporter Config - Rock-Solid SMTP Layout
+// 🎛️ Transporter Config - Optimized Cloud SMTP Layout
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // Uses SSL for secure email routing
+  port: 587,             // Switching to Port 587 (Standard TLS port for cloud hosts)
+  secure: false,         // Must be false for port 587
+  requireTLS: true,      // Forces an upgraded encrypted transmission handshake
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS 
+  },
+  tls: {
+    rejectUnauthorized: false // Prevents cloud hosting certificate rejections
   }
 });
 
