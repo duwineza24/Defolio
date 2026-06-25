@@ -1,9 +1,10 @@
-import PortfolioScene from "./scenes/PortfolioScene";
+import Homepage from "./components/Homepage";
 
 function App() {
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
-      <PortfolioScene />
+      <Homepage />
+
     </div>
   );
 }
