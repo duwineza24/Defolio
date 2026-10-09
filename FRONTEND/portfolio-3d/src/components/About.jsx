@@ -115,6 +115,7 @@ export default function About({ onClose }) {
                 { title:"Technical Cohort Fellow",    date:"Aug 2024 – Sep 2024", loc:"HerInTech",                    desc:"Completed an advanced tech accelerator camp to empower girls with industry software stacks." },
                 { title:"Humanitarian First Responder",date:"Aug 2024 – Sep 2024",loc:"Croix Rouge Rwanda (Red Cross)","desc":"Certified first-aid and crisis management training with humanitarian cooperation values." },
                 { title:"Global Scholar Alumna",      date:"Jun 2025",            loc:"Yale Young African Scholars",   desc:"Collaborative global problem-solving with top student minds across Africa via YYAS." },
+                {title: "Girls Who Code Program Participant",date: "Summer 2026",loc: "Girls Who Code (GWC)",desc: "Developed computer science and problem-solving skills through participation in a coding program."},
               ].map((exp, i) => (
                 <div key={i} style={{ backgroundColor:"rgba(6,6,14,0.4)",padding:20,borderRadius:10,border:"1px solid rgba(168,85,247,0.1)" }}>
                   <div style={{ display:"flex",justifyContent:"space-between",flexWrap:"wrap",gap:8,marginBottom:8 }}>
