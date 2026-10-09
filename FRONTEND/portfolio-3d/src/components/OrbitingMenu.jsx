@@ -14,7 +14,7 @@ const items = [
   { name: "GitHub",   icon: IoLogoGithub,         url: "https://github.com/duwineza24" },
   { name: "LinkedIn", icon: IoLogoLinkedin,        url: "https://www.linkedin.com/in/devothe-uwineza-20055b376/" },
   { name: "Projects", icon: IoBriefcaseOutline },
-  { name: "Resume",   icon: IoDocumentTextOutline, url: "/resume.pdf" },
+  { name: "Resume",   icon: IoDocumentTextOutline, url: "/Resume.pdf" },
 ];
 
 export default function OrbitingMenu({ onNavigate, onHoverChange }) {
