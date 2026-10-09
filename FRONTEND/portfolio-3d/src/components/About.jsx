@@ -169,7 +169,15 @@ export default function About({ onClose }) {
               <div>
                 <h3 style={{ color:"#a855f7",margin:"0 0 12px",fontSize:18,textTransform:"uppercase",letterSpacing:1 }}>Credentials & Honors</h3>
                 <div style={{ display:"flex",flexWrap:"wrap",gap:8 }}>
-                  {["iLEAD Leadership Certified","Wavumbuzi Entrepreneurship (2x)","Yale Young African Scholars","HerInTech Graduate Accelerator","Math & Science Quiz Laureate"].map((b, i) => (
+                 {[
+  "iLEAD Leadership Certified",
+  "Wavumbuzi Entrepreneurship (2x)",
+  "Yale Young African Scholars",
+  "HerInTech Graduate Accelerator",
+  "Math & Science Quiz Laureate",
+  "Girls Who Code — Cybersecurity Certificate",
+  "Girls Who Code — Database Certificate"
+].map((b, i) => (
                     <span key={i} style={{ backgroundColor:"rgba(234,179,8,0.1)",border:"1px solid rgba(234,179,8,0.3)",color:"#eab308",padding:"6px 14px",borderRadius:20,fontSize:12,fontWeight:500 }}>
                       🛡️ {b}
                     </span>
